@@ -22,7 +22,7 @@ class RailsPage < Page
   
   def build_parts_from_hash!(content)
     content.each do |k,v|
-      (part(k) || parts.build(:name => k.to_s)).content = v
+      part_for_key(k).content = v
     end
   end 
   
@@ -33,5 +33,11 @@ class RailsPage < Page
     else
       render_tag('old_breadcrumbs', tag)
     end
+  end
+  
+  private
+  
+  def part_for_key(key)
+    part(key) || parts.build(:name => key.to_s, :filter_id => TextFilter)
   end
 end

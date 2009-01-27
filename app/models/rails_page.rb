@@ -24,7 +24,7 @@ class RailsPage < Page
     content.each do |k,v|
       part_for_key(k).content = v
     end
-  end 
+  end
   
   alias_method "tag:old_breadcrumbs", "tag:breadcrumbs"
   tag 'breadcrumbs' do |tag|
@@ -38,6 +38,11 @@ class RailsPage < Page
   private
   
   def part_for_key(key)
-    part(key) || parts.build(:name => key.to_s, :filter_id => TextFilter)
+    unless part = part(key)
+      part = parts.build(:name => key.to_s)
+      part.filter_id = nil
+    end
+    
+    part
   end
 end
